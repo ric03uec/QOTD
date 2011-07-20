@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, WidgetConfig!</string>
+    <string name="app_name">QOTD</string>
+    <string name="app_config">App_Config</string>
+    <string name="current_selection">Default Feed</string>
+    <string name="inet_check">Conn check</string>
+</resources>
