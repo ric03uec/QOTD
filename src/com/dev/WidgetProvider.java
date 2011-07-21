@@ -29,9 +29,6 @@ public class WidgetProvider extends AppWidgetProvider {
 	public static AlarmManager qotdAlarmManager;
 	public static PendingIntent qotdPendingIntent;
 	
-	private SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy  hh:mm:ss a");
-	private String strWidgetText = "";
-	
 	public static String QOTD_WIDGET_UPDATE = "QOTD_WIDGET_UPDATE";
 	
 	@Override
