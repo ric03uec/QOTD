@@ -9,6 +9,10 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.widget.Toast;
 
+/**
+  Test activity to check the network connectivity. This will be used to change the update time in case
+  the network is unavailable. 
+*/
 public class InetConnection extends Activity {
 
 	@Override
@@ -29,7 +33,7 @@ public class InetConnection extends Activity {
 		
 		ConnectivityManager connec = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
 		if (connec != null && (connec.getNetworkInfo(1).getState() == NetworkInfo.State.CONNECTED) ||(connec.getNetworkInfo(0).getState() == NetworkInfo.State.CONNECTED)){ 
-		    Toast.makeText(getApplicationContext(), "CONNETCTED...", Toast.LENGTH_LONG).show();		
+		    Toast.makeText(getApplicationContext(), "CONNECTED...", Toast.LENGTH_LONG).show();		
 		}else if (connec.getNetworkInfo(0).getState() == NetworkInfo.State.DISCONNECTED ||  connec.getNetworkInfo(1).getState() == NetworkInfo.State.DISCONNECTED ) {             
 		    Toast.makeText(getApplicationContext(), "You must be connected to the internet", Toast.LENGTH_LONG).show();
 		}
