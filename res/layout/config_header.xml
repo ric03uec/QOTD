@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+            android:layout_alignParentTop="true"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            >
+        <TextView android:gravity="center"
+                android:id="@+id/title"
+                android:layout_height="50dip"
+                android:layout_width="fill_parent"
+                android:text="QOTD"
+                android:textColor="#ffffff"
+                android:textSize="25sp"/>
+        <TextView android:gravity="center"
+                android:id="@+id/selection"
+                android:layout_height="50dip"
+                android:layout_width="fill_parent"
+                android:text="Select Feed Source"
+                android:textColor="#ffffff"
+                android:textSize="20sp"/>
+    </LinearLayout>
+</RelativeLayout>
