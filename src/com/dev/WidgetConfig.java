@@ -10,8 +10,10 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
+
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.ListActivity;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
@@ -34,8 +36,8 @@ import android.widget.Toast;
  * @author devashish
  *
  */
-public class WidgetConfig extends Activity {
-
+public class WidgetConfig extends ListActivity {
+	private static final String TAG = "WIDGET_CONFIG";
 	
 	private static Integer UPDATE_TIME_MINS 	= 240;
 	private Button configOkButton;
@@ -45,33 +47,46 @@ public class WidgetConfig extends Activity {
 	/**
 	 * Called when the activity is created, used for initializing the values
 	 */
+	
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		super.onListItemClick(l, v, position, id);
+		
+		String feedSource = null;
+		if(1 == position){
+			feedSource = getString(R.string.brainy_quote_source);
+		}else if(2 == position){
+			feedSource = getString(R.string.quotation_page_source);
+		}
+		
+		Thread quoteFetcher = new Thread(new FetchQuotes(feedSource));
+		quoteFetcher.start();
+		
+		setResult();
+	}
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		setResult(RESULT_CANCELED);
 		
-		Thread quoteFetcher = new Thread(new FetchQuotes());
-		quoteFetcher.start();
-		/*
-		setContentView(R.layout.config_layout);
-		configOkButton = (Button) findViewById(R.id.okconfig);
-		configOkButton.setOnClickListener(okButtonListener);
-		*/
+		String [] options = getResources().getStringArray(R.array.mainMenu);
+		this.getListView().addHeaderView(getLayoutInflater().inflate(R.layout.config_header, null));
+		this.setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, options));
 		
-		
-		//returns the intent that started this activity
 		Intent intent = getIntent();
 		Bundle extras = intent.getExtras();
 		if(extras != null){
 			mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
 			setAlarm();
-			setResult();
+//			setResult();
 			
 		}
 		
 		if(mAppWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID){
-			finish();
+//			finish();
 		}
 	}
 	
@@ -93,61 +108,9 @@ public class WidgetConfig extends Activity {
 	}
 	
 	private void setResult(){	
-		
-		
 		Intent resultValue = new Intent();
 		resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
 		setResult(RESULT_OK, resultValue);
 		finish();
 	}
-
-	
-//	private OnClickListener okButtonListener = new OnClickListener() {
-//		
-//		@Override
-//		public void onClick(View v) {
-//			final Context context = WidgetConfig.this;
-//			AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-//			
-//			WidgetProvider.updateAppWidget(context, appWidgetManager, mAppWidgetId);
-//			
-//			
-//			
-//			//-----------prepare alarm service to trigger widgets-----------//
-//			//the following not working due to some reason.
-////			Intent intent = new Intent(WidgetProvider.QOTD_WIDGET_UPDATE);
-//			Intent intent = new Intent(WidgetConfig.this, AlarmReceiver.class);
-//			
-//			/*
-//			 * Get the feed 
-//			 */
-////			Log.d("RSS_READER", "Quote is ---> " + QUOTE);
-//			//---------------------------------------------------------------
-//			if(false == isFeedPresent){
-//				intent.putExtra("QUOTEPRESENT", "FALSE");
-//				intent.putExtra("QUOTEVALUE", "NO FEED PRESENT CURRENTLY");
-//			}else{
-//				intent.putExtra("QUOTEPRESENT", "TRUE");
-//				intent.putExtra("QUOTEVALUE", quoteMap.get(0).getQuote());
-//				intent.putExtra("AUTHOR", quoteMap.get(0).getAuthor());
-//			}
-//			
-//			PendingIntent pendingIntent = PendingIntent.getBroadcast(WidgetConfig.this, 0, intent, 0);
-//			AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-//			
-//			Calendar cal = Calendar.getInstance();
-//			/*
-//			 * Set a 10 second timer
-//			 */
-//			cal.add(Calendar.SECOND, 10);
-//			alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
-//			
-//			WidgetProvider.saveAlarmManager(alarmManager, pendingIntent);
-//			
-//			Intent resultValue = new Intent();
-//			resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
-//			setResult(RESULT_OK, resultValue);
-//			finish();
-//		}
-//	};
 }

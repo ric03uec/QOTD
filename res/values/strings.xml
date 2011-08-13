@@ -5,4 +5,12 @@
     <string name="app_config">App_Config</string>
     <string name="current_selection">Default Feed</string>
     <string name="inet_check">Conn check</string>
+    <string-array name="mainMenu">
+    	<item></item>
+    	<item>www.brainyquote.com</item>
+    	<item>www.quotationpage.com</item>
+    	<item></item>
+    </string-array>
+    <string name="brainy_quote_source">http://feeds.feedburner.com/brainyquote/QUOTEBR</string>
+    <string name="quotation_page_source">http://feeds.feedburner.com/quotationspage/qotd</string>
 </resources>

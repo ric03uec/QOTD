@@ -19,21 +19,22 @@ import android.util.Log;
  */
 public class FetchQuotes implements Runnable {
 
-	private static String FEED_URL = "http://www.quotationspage.com/data/qotd.rss";
+	private String feedSource;
 	private RSSFeed feed = null;
 	public static HashMap<Integer, Quote> quoteMap = new HashMap<Integer, Quote>();
 	public static boolean isFeedPresent = false;
 	public static int FEED_INDEX = 0;
 	Thread quotesFetcher;
 	
-	public FetchQuotes(){
-		quotesFetcher = new Thread(FetchQuotes.this);
-		quotesFetcher.start();
+	public FetchQuotes(String feedSource){
+		this.feedSource = feedSource;
+		this.quotesFetcher = new Thread(FetchQuotes.this);
+		this.quotesFetcher.start();
 	}
 	
 	@Override
 	public void run() {
-		feed = getFeed(FEED_URL);
+		feed = getFeed(this.feedSource);
 		parseFeedIntoQuotes();
 		
 	}
